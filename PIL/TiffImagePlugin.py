@@ -478,8 +478,11 @@ class ImageFileDirectory_v2(collections.MutableMapping):
     def load_rational(self, data, legacy_api=True):
         vals = self._unpack("{0}L".format(len(data) // 4), data)
         combine = lambda a, b: (a, b) if legacy_api else a / b
-        return tuple(combine(num, denom)
+        try:
+            return tuple(combine(num, denom)
                      for num, denom in zip(vals[::2], vals[1::2]))
+        except ZeroDivisionError:
+            return None
 
     @_register_writer(5)
     def write_rational(self, *values):
