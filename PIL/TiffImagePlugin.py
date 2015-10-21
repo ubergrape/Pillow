@@ -482,7 +482,7 @@ class ImageFileDirectory_v2(collections.MutableMapping):
             return tuple(combine(num, denom)
                      for num, denom in zip(vals[::2], vals[1::2]))
         except ZeroDivisionError:
-            return None
+            return 0.0
 
     @_register_writer(5)
     def write_rational(self, *values):
